@@ -22,18 +22,27 @@ public class HttpServletForm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
+
+        Map<String, Object> salida = new HashMap();
         //Captura de datos 
         Map<String, String[]> parametros = request.getParameterMap();
-        
+
         String nombre = (String)parametros.get("nombre")[0];
+        salida.put("nombre", nombre);
         String apellido = (String)parametros.get("apellido")[0];
+        salida.put("apellido", apellido);
         String dni = (String)parametros.get("dni")[0];
+        salida.put("dni", dni);
         String direccion = (String)parametros.get("direccion")[0];
+        salida.put("direccion", direccion);
         String ciudad = (String)parametros.get("ciudad")[0];
+        salida.put("ciudad", ciudad);
         String telefono = (String)parametros.get("telefono")[0];
+        salida.put("telefono", telefono);
         String email = (String)parametros.get("email")[0];
+         salida.put("email", email);
         String sexo = (String)parametros.get("sexo")[0];
+        salida.put("sexo", sexo);
         //Proceso para transformar un String en date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -41,8 +50,13 @@ public class HttpServletForm extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(HttpServletForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        salida.put("fechaDeNacimiento", fechaDeNacimiento);
         boolean graduado = Boolean.parseBoolean((String)parametros.get("nombre")[0]);
+        salida.put("graduado", graduado);
         String titulo = (String)parametros.get("nombre")[0];
+        salida.put("titulo", titulo);
+
+        //Guardado de información en el session.
         
     }
 }
