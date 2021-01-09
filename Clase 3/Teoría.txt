@@ -1,0 +1,146 @@
+Servlet diseñado para crear aplicaciones web.
+
+Las aplicaciones residen en un servidor web por ejemplo tomcat.
+donde estan las paginas que componen nuestro sitio.
+
+antes de java desarrollar servlet se usaba cgi.
+
+Un servlet es una clase de java, de JEE que cumple con la api de java servlet.
+los servlets pueden comunicarse por medio de cualquier protocolo, pero se utiliza generalmente
+http.
+
+componente de session: permite almacenar cualquier tipo de dato para que pueda ser 
+compartido por cualquier pagina.
+si necesitamos pasar informacion entre paginas entonces nos va a ayudar para poder 
+intercambiar esos datos.
+
+java enterprise edition, plataforma para desarrollar y ejecutar software aplicaciones 
+orientadas a la web.
+
+arquitectas de capas distribuidas.
+
+jdbc, xml, jms, componentes que pueden integrar una aplicacion web: tener acceso a una base
+de datos, intercambiar de manera online informacion con otras aplicaciones por medio
+de servicios web a traves de formato xml o json.
+
+todo esto permite que las aplicaciones desarrolladas sean portables y escalables.
+
+java ejb: java remove metodo invocacion, mecanismo ofrecido por java para poder
+invocar un metodo de manera remota.
+
+java transaccion: define jta las transacciones en java, podriamos definir en una 
+aplicacion la cantidad de transacciones permitidas de maneras concurrente, esto
+hay que tenerlo en cuenta para que la aplicacion no se caiga con alta carga.
+estan involucrados los servidores y otras cosas.
+
+javax.jms es la api jms, estamos hablando de todo lo que es mensajeria, necesitamos
+especificaciones para poder manejar la informacion de manera asincrona, podemos tener
+una aplicacion que vaya a buscar datos (novedades) y un subscriptor ubicado en otro
+lugar geograficamente tomaria esas novedades, podriamos tener informacion almacenada
+de todas las direcciones ip de decodificadores, esa la toma una aplicacion x para
+poder exponerla a traves de un frontend, si los decodificadores cambian de ip, esa novedad
+se envia a una cola jms y el subscriptor recibe esa novedad.
+se usa esto si tenemos mucho volumen de datos para lograr una solucion mas optima.
+
+javax/persistence: jpa basicamente lo que se ve en el curso de hibernate.
+
+
+API SERVLET.
+
+vamos a usar la api para crear los servlets, 
+los paquetes son el javax.servlet.http y el javax.servlet.
+
+TODO SERVLET DEBE IMPLEMENTAR LA INTERFAZ JAVA.servlet.SERVLET o la httpServlet.
+
+GenericServlet() aplicaciones que no son web y en las cuales intercambianmos mensajes.
+
+HTTPServlet, la cual es una clase abstracta.
+
+los metodos que tenemos son:
+
+doGet: se usa para tener informacion del servidor, los datos se muestran
+en la url.
+
+doPost: se usa para enviar informacion al servidor, pero se envia en el body del formulario
+no se expone la informacion via url.
+
+doPut: se usa para enviar ARCHIVOS  tipo FTP al servidor.
+
+doDelete: permite que el cliente elimine un documento pagina web o informacion del servidor.
+borrar recursos, por ejemplo el metodo get nos trae la informacion, el post sirve para
+dar de alta el cliente y el doDelete serviria para eliminar el cliente, eliminando
+un recurso y no todos.
+
+init y destroy:  inicializan y destruyen los componentes ocupando y liberando memoria.
+
+getServerInfo: devuelve informacion del servlet como los derechos de autor, lo podemos
+sobreescribir y poner información personalizada.
+
+Como trabaja un Servlet.
+
+el contenedor web obtiene la solicitud y respuesta del servlet.
+proporciona una web o un servidor.
+
+para acceder a la funcionalidad del servlet, tenemos el servlet request y response.
+
+container -> -> requuest, response, sirven para generar funcionalidad del lado
+del servidor.
+una vez que llega la peticion el container llega el request el servlet lo procesa, asignandosele
+un hilo lo procesa y da un response.
+el service decide que metodo llamar dopost o get.
+
+una vez que la peticion esta en el servlet junto con el verbo get o post, el service llama
+por ejemplo al doget haciendo la logica que nosotros le indicamos.
+
+el servlet usa el objeto response para devolver la respuesta.
+
+una vez finalizado el service muere el hilo.
+
+INIT inicializa el servlet y el DESTROY elimina la instancia de servlet.
+
+Los contenedores gestionan el ciclo de vida, procesos y la seguridad.
+
+el servlet y jsp son recursos dinamicos web basados en java, los cuales se ejecutan en
+el contenedor administra el ciclo de vida.
+
+soporte de comunicacion: sockets mediante los cuales se conectan los programas
+servidor y cliente en una red.
+
+Seguridad: podemos dejar el default de los contenedores o manejarlo nosotros mismos.
+
+tomcat es nuestro servidor.
+
+
+ESTRUCTURA DE UNA APLICACIÓN WEB.
+
+WEB-INF: aca es donde estan sus carpetas classes y lib, donde estan los jar
+en las carpetas de libreria, podemos poner alguna libreria de conexion como
+un connector tipo MYSQL, despues los .class van en la carpeta classes.
+
+Generar nuestras carpetas o archivos.
+
+web.xml
+
+
+EL metodo service llama a los metodos doget y dopost, que justamente se implementan dentro
+de lo que seria la clase del servlet.
+la comunicacion es bidireccional.
+
+SESIONES 
+
+Clase HttpSesion
+
+tener informacion asociada al usuario que esta logueado en nuestra aplicacion.
+Poder tener en cache informacion de lo que va haciendo el usuario sobre nuestra
+aplicacion y poder obtener la informacion entre las paginas del sitio y dar una
+respuesta a la pagina origen a traves de los servlets.
+
+una session ese individual a cada usuario y no es compartida entre usuarios dicha informacion
+
+ARRANCAMOS CON EL LABORATORIO
+
+El objetivo es armar un ABM, trabajando con una coleccion, MAP.
+vamos a trabajar con esto para ir persistiendo la informacion, la coleccion MAP
+maneja key y value, es la conocida de toda la vida.
+
+sendRedirect() enviar respuesta por queryString
