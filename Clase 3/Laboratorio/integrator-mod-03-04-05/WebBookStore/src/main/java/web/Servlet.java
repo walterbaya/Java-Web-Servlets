@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Book;
 
 @WebServlet(name = "Servlet", urlPatterns = {"/Servlet"})
 public class Servlet extends HttpServlet {
@@ -47,27 +48,28 @@ public class Servlet extends HttpServlet {
         String searchText = request.getParameter("searchInput");
         String insertText = request.getParameter("insertInput");
         String updateText = request.getParameter("updateInput");
-        String valor = "";
+        String value = "";
         if (act == null) {
 
         } else if ("delete".equals(act)) {
-            valor = "delete";
+            value = "delete";
             int i = Integer.parseInt(deleteText);
             bookDao.deleteById(i);
             //send message saying the which book is been deleted
         } else if ("insert".equals(act)) {
-            valor = "insert";
-           
+            value = "insert";
+            String[] words = insertText.split(",");
+            Book book = new Book(words[0], words[1], Float.parseFloat(words[2]));
         } else if ("update".equals(act)) {
-            valor = "update";
-            
+            value = "update";
+
         } else {
-            valor = "search";
+            value = "search";
             int i = Integer.parseInt(searchText);
             bookDao.findById(i);
         }
 
-        processRequest(request, response);
+        response.sendRedirect("index.jsp");
     }
 
     @Override
