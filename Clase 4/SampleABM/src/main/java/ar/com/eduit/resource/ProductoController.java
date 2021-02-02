@@ -36,7 +36,7 @@ public class ProductoController extends HttpServlet {
         try {
             if (cnx == null) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                cnx = DriverManager.getConnection("jdbc:mysql://localhost/demo", "root", "astinm345");
+                cnx = DriverManager.getConnection("jdbc:mysql://localhost/webbook", "root", "astinm345");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("Error conectando con la base de datos " + ex);
