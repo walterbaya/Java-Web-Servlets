@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import model.Book;
 
 public class BookDao {
@@ -38,23 +40,21 @@ public class BookDao {
         return result;
     }
 
-    /*
-    public Integer update(Producto p) {
+    public Integer update(Book b) {
         int respuesta = 0;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("update productos set presentacion=?, cantidad=?,precio=?,descripcion=? where id = ?");
-            preparedStatement.setString(1, p.getPresentacion());
-            preparedStatement.setInt(2, p.getCantidad());
-            preparedStatement.setFloat(3, p.getPrecio());
-            preparedStatement.setString(4, p.getDescripcion());
-            preparedStatement.setLong(5, p.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE books SET title=?,author=?,price=? WHERE id = ?");
+            preparedStatement.setInt(1, b.getId());
+            preparedStatement.setString(2, b.getTitle());
+            preparedStatement.setString(3, b.getAuthor());
+            preparedStatement.setFloat(4, b.getPrice());
             respuesta = preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException("Error actualizando en la base de datos " + ex);
         }
         return respuesta;
     }
-*/
+
     public Integer delete(int id) {
         int respuesta = 0;
         try {
@@ -66,44 +66,48 @@ public class BookDao {
         }
         return respuesta;
     }
-/*
-    public Producto get(Long id) {
-        Producto p = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from productos where id = ?");
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                String presentacion = rs.getString("presentacion");
-                Integer cantidad = rs.getInt("cantidad");
-                Float precio = rs.getFloat("precio");
-                String descripcion = rs.getString("descripcion");
-                p = new Producto(id, presentacion, cantidad, precio, descripcion);
-            }
-        } catch (SQLException ex) {
-            throw new RuntimeException("Error obteniendo de la base de datos " + ex);
-        }
-        return p;
-    }
-
-    public List<Producto> getAll() {
-        List<Producto> productos = new ArrayList();
+        public List<Book> getAll() {
+        List<Book> books = new ArrayList();
         try {
             Statement preparedStatement = connection.createStatement();
-            ResultSet rs = preparedStatement.executeQuery("select * from productos");
+            ResultSet rs = preparedStatement.executeQuery("SELECT * FROM books");
             while (rs.next()) {
-                Long id = rs.getLong("id");
-                String presentacion = rs.getString("presentacion");
-                Integer cantidad = rs.getInt("cantidad");
-                Float precio = rs.getFloat("precio");
-                String descripcion = rs.getString("descripcion");
-                Producto p = new Producto(id, presentacion, cantidad, precio, descripcion);
-                productos.add(p);
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                String author = rs.getString("author");
+                Float price = rs.getFloat("price");
+                Book b = new Book(title, author, price);
+                b.setId(id);
+                books.add(b);
             }
         } catch (SQLException ex) {
             throw new RuntimeException("Error consultando en  la base de datos " + ex);
         }
-        return productos;
+        return books;
     }
-     */
+        
+    public Book get(int id) {
+        Book b = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM books WHERE id = ?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                int Id = rs.getInt("id");
+                String title = rs.getString("title");
+                String author = rs.getString("author");
+                Float price = rs.getFloat("price");
+                b = new Book(title,author,price);
+                b.setId(Id);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException("Error obteniendo de la base de datos " + ex);
+        }
+        return b;
+    }
+    
+    public void deleteAll() throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE * FROM books");
+        preparedStatement.executeUpdate();
+    }
 }

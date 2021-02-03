@@ -44,14 +44,14 @@
                                 </div>
                                 <br/>
                                 <div class="input-group input-group-newsletter">
-                                    <input type="text" class="form-control" placeholder="Delete a book using id..." aria-label="Borra un Libro..." aria-describedby="submit-button" name="deleteInput">
+                                    <input type="text" class="form-control" placeholder="Delete a book using id ..." aria-label="Borra un Libro..." aria-describedby="submit-button" name="deleteInput">
                                     <div class="input-group-append">
                                         <button class="btn btn-secondary" type="submit" name="act" value="delete">Delete</button>
                                     </div>
                                 </div>
                                 <br/>
                                 <div class="input-group input-group-newsletter">
-                                    <input type="text" class="form-control" placeholder="Update a book using author,title,price" aria-label="Actualiza un Libro..." aria-describedby="submit-button" name="updateInput">
+                                    <input type="text" class="form-control" placeholder="Update a book using id,author,title,price" aria-label="Actualiza un Libro..." aria-describedby="submit-button" name="updateInput">
                                     <div class="input-group-append">
                                         <button class="btn btn-secondary" type="submit" name="act" value="update">Update</button>
                                     </div>
@@ -74,10 +74,10 @@
         <table class="table table-dark table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
                 </tr>
             </thead>
             <tbody>
