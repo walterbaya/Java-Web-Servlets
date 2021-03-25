@@ -16,7 +16,8 @@
             Precio: <input type="text" name="precio"/><br/>
             Descripcion: <input type="text" name="descripcion"/><br/>
 
-            <input type="submit" value="Guardar"/><br>
+            <input type="submit" name="command" value="Guardar"/>
+            <input type="submit" name="command" value="Listar"/><br>
         </form>
 
         <%List<String> mensajes =(List<String>)session.getAttribute("mensajes");
@@ -44,7 +45,7 @@
                     <td><%=a.getCantidad()%></td>
                     <td><%=a.getPrecio()%></td>
                     <td><%=a.getDescripcion()%></td>
-                    <td><a href="/SampleABM/producto?id=<%=a.getId()%>">borrar</td>
+                    <td><a href="/SampleABM/producto?command=Borrar&id=<%=a.getId()%>">borrar</td>
                 </tr>
                 <%} }%>
                 <%session.removeAttribute("productos");%>

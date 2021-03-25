@@ -1,12 +1,13 @@
 package ar.com.eduit.resource;
 
-import ar.com.eduit.entidades.Producto;
+import ar.com.eduit.command.Command;
 import ar.com.eduit.repository.ProductoRepository;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ProductoController extends HttpServlet {
 
     private static Connection cnx = null;
+    private Map<String, Command> commands;
+    private ResourceBundle resourceBundle;
 
     @Override
     public final void init() throws ServletException {
@@ -29,6 +32,27 @@ public class ProductoController extends HttpServlet {
             throw new RuntimeException(ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        commands = new HashMap();
+        resourceBundle = ResourceBundle.getBundle("ar.com.eduit.config.config");
+        Enumeration<String> keys = resourceBundle.getKeys();
+        while (keys.hasMoreElements()) {
+            String key = keys.nextElement();
+            String value = resourceBundle.getString(key);
+            Class clazz;
+            try {
+                clazz = Class.forName(value);
+                Command command = (Command) clazz.newInstance();
+                commands.put(key, command);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -44,75 +68,30 @@ public class ProductoController extends HttpServlet {
         return cnx;
     }
 
+    //Procesa cualquier tipo de request, no importa si es post o get.
+    //desde doPost y doGet llamamos a este processRequest para procesar el request
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductoController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductoController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
-        }
+
+        ProductoRepository productoRepository;
+        productoRepository = new ProductoRepository(cnx);
+        String userCommand = request.getParameter("command");
+        Command command = commands.get(userCommand);
+        String redirect = command.execute(productoRepository, request);
+        response.sendRedirect(redirect);
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductoRepository productoRepository;
-        productoRepository = new ProductoRepository(cnx);
-        String sId = request.getParameter("id");
-        Long id = Long.parseLong(sId);
-        productoRepository.delete(id);
-        List<Producto> productos = productoRepository.getAll();
-        request.getSession().setAttribute("productos", productos);
-        response.sendRedirect("index.jsp");
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductoRepository productoRepository;
-        productoRepository = new ProductoRepository(cnx);
-
-        String presentacion = request.getParameter("presentacion");
-        String sCantidad = request.getParameter("cantidad");
-        String sPrecio = request.getParameter("precio");
-        String descripcion = request.getParameter("descripcion");
-
-        List<String> mensajes = new ArrayList();
-        float precio = 0.0f;
-        try {
-            precio = Float.parseFloat(sPrecio);
-        } catch (NumberFormatException ex) {
-            mensajes.add(sPrecio + "no es un número válido. Ej: 12.15");
-        }
-
-        int cantidad = 0;
-        try {
-            cantidad = Integer.parseInt(sCantidad);
-        } catch (NumberFormatException ex) {
-            mensajes.add(sCantidad + "no es un número válido. Ej: 15");
-        }
-
-        if (mensajes.isEmpty()) {
-            Producto producto = new Producto(presentacion, cantidad, precio, descripcion);
-            productoRepository.save(producto);
-            List<Producto> productos = productoRepository.getAll();
-            mensajes.add("Registrado con Exito");
-            request.getSession().setAttribute("productos", productos);
-        }
-
-        request.getSession().setAttribute("mensajes", mensajes);
-        response.sendRedirect("index.jsp");
+        processRequest(request, response);
     }
 
     @Override
