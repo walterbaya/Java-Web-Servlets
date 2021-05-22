@@ -16,7 +16,8 @@
             Precio: <input type="text" name="precio"/><br/>
             Descripcion: <input type="text" name="descripcion"/><br/>
 
-            <input type="submit" value="Guardar"/><br>
+            <input type="submit" value="Guardar"/>
+            <input type="submit" value="Listar"/><br>
         </form>
 
         <%List<String> mensajes =(List<String>)session.getAttribute("mensajes");

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ public class ProductoController extends HttpServlet {
         }
 
         commands = new HashMap();
-        resourceBundle = ResourceBundle.getBundle("ar.com.eduit.config.config");
+        resourceBundle = ResourceBundle.getBundle("config", Locale.US);
         Enumeration<String> keys = resourceBundle.getKeys();
         while (keys.hasMoreElements()) {
             String key = keys.nextElement();
@@ -60,7 +61,7 @@ public class ProductoController extends HttpServlet {
         try {
             if (cnx == null) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                cnx = DriverManager.getConnection("jdbc:mysql://localhost/webbook", "root", "astinm345");
+                cnx = DriverManager.getConnection("jdbc:mysql://localhost/demo", "root", "astinm345");
             }
         } catch (SQLException ex) {
             throw new RuntimeException("Error conectando con la base de datos " + ex);
