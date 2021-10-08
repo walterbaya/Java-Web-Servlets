@@ -1,0 +1,2 @@
+Los JSPs no procesan por medio de logica de negocio, se dedican exclusivamente a 
+enviar informacion al cliente.

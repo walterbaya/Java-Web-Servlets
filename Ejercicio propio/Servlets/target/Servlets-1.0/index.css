@@ -1,0 +1,39 @@
+body{display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-image: url(resources/imagenes/datos.jpg);
+	background-position: center;
+}
+
+form{background-color: black; padding: 2em;
+ 	 display: flex;
+ 	 flex-direction: column;
+ 	 width: 50%;
+ 	}
+
+div{background-color: black;
+ 	opacity: 0.95;
+ 	margin-top: 5em;
+ 	display: flex;
+	flex-direction: column;
+	align-items: center;
+border-radius: 0.95em;}
+
+h1{color: white;
+	font-family: 'Arial Black';
+	color: #747575; 
+	font-size: 4em;
+	padding-left: 1em;
+    padding-right: 1em;
+	text-shadow: 0.1px;}
+
+label{font-family: 'Arial ';
+	 color: white; font-size: 3em;
+	 font-style: italic;
+	 text-align: center;
+	 padding-bottom: 0.5em;
+	}
+
+input{height: 2em;border-radius: 0.5em;}
+
