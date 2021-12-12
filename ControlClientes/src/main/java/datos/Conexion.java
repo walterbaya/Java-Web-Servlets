@@ -13,7 +13,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class Conexion {
 
     //declaramos la jdbcUrl
-    private static final String JDBC_URL = "jdcb:mysql://localhost:3306/control_clientes?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/control_clientes?zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "1234";
 
@@ -47,12 +47,11 @@ public class Conexion {
         }
     }
 
-    private static void close(Connection conn) {
+    public static void close(Connection conn) {
         try {
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <!--Esta configuracion es para que podamos ver la informacion
+        en la consola de glassfish, definimos la consola y en target ponemos
+        la salidad correspondiente.-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--Este es el patrón que se va a usar para los mensajes vamos a decir la fecha
+                el dia la hora en minutos y segundos decimos que son los 
+            parametros de tiempo para eso la t, luego le decimos que vamos a usar nivel 5           
+            -->
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} -%msg%n"></PatternLayout>
+        </Console>
+    </Appenders>
+    <!---Especificamos los niveles, por ejemplo debug es toda la info, el nivel recomendable es 
+    el nivel de info, para que no muestra informacion excesiva en la consola.-->
+    <Loggers>
+        <Root level="info">
+            <!--Aca decimos hacia donde vamos a mandar toda la información-->
+            <AppenderRef ref="Console" /> 
+        </Root>
+    </Loggers>
+</Configuration>
